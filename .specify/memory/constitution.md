@@ -1,16 +1,17 @@
 <!--
 Sync Impact Report
-Version change: 1.0.0 → 1.1.0
+Version change: 1.1.0 → 1.2.0
 Modified principles: none
-Added sections: none (Technology Stack Constraints section expanded, not restructured)
+Added sections: none (Development Workflow & Quality Gates section expanded, not restructured)
 Removed sections: none
 Deferred/TODO items: application scope (single-clinic vs. owner portal vs. multi-tenant SaaS)
   intentionally left undecided — will be determined per-feature from the User Stories supplied
   for /speckit-specify, not pinned in the constitution.
-Change: Technology Stack Constraints now pins styling (Tailwind CSS + shadcn/ui), package
-manager (pnpm), and deployment target (Docker, self-hosted) following project-scaffolding
-decisions. The app skeleton (Next.js + Prisma + Vitest + Playwright-bdd + Docker + CI) has been
-scaffolded into the repository accordingly.
+Change: Development Workflow & Quality Gates now mandates a dedicated git branch per feature
+(named after its spec directory, e.g. `001-register-owner`, created from `main` no later than
+`/speckit-implement`) and merging exclusively via pull request — direct commits/pushes to `main`
+for feature work are prohibited. Plain git branches are the required isolation mechanism; git
+worktrees are permitted as a local convenience but are not a substitute for the branch itself.
 -->
 
 # Petclinic Spec Kit Constitution
@@ -90,6 +91,18 @@ stack; raw, unreviewed SQL is where type safety and migration discipline tend to
   block merge on failure.
 - `/speckit-checklist` output MUST be attached to or linked from the pull request that closes
   out the corresponding feature.
+- Every feature MUST be developed on a dedicated git branch named after its spec directory
+  (e.g. `001-register-owner`), created from `main` no later than the start of
+  `/speckit-implement`. Direct commits to `main` for feature work are NOT permitted. A git
+  worktree MAY be used locally for isolation, but the underlying branch requirement still
+  applies — a worktree is not a substitute for it.
+- Feature work MUST be integrated into `main` exclusively via pull request; direct pushes to
+  `main` are NOT permitted except for non-feature repository maintenance explicitly authorized
+  outside the Spec Kit lifecycle (e.g. constitution/documentation fixes with no feature branch).
+  The PR description MUST reference the spec/plan/tasks artifacts per the bullet above.
+Rationale: a per-feature branch plus PR merge keeps `main` always releasable, gives
+`/speckit-analyze` and CI a stable point to gate on before code reaches `main`, and matches
+Principle I's requirement that a PR reference the lifecycle artifacts it implements.
 
 ## Governance
 
@@ -105,4 +118,4 @@ Versioning policy (semantic versioning applied to this document):
 - **MINOR**: a new principle or materially expanded section is added.
 - **PATCH**: wording clarifications and non-semantic refinements.
 
-**Version**: 1.1.0 | **Ratified**: 2026-10-10 | **Last Amended**: 2026-10-10
+**Version**: 1.2.0 | **Ratified**: 2026-10-10 | **Last Amended**: 2026-10-10
