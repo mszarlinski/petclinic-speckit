@@ -1,0 +1,78 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+env:
+  DATABASE_URL: postgresql://petclinic:petclinic@localhost:5432/petclinic?schema=public
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: petclinic
+          POSTGRES_PASSWORD: petclinic
+          POSTGRES_DB: petclinic
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U petclinic"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - run: pnpm run lint
+
+      - run: pnpm exec prisma generate
+
+      - run: pnpm run typecheck
+
+      - run: pnpm run test:unit
+
+      - run: pnpm exec prisma migrate deploy
+
+      - run: pnpm run build
+
+      - run: pnpm exec playwright install --with-deps chromium
+
+      - run: pnpm run test:bdd
+
+      - if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 7
+
+  docker-build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: docker/setup-buildx-action@v3
+
+      - uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: false
+          tags: petclinic:ci

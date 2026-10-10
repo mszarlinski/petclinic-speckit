@@ -1,20 +1,16 @@
 <!--
 Sync Impact Report
-Version change: [UNSET TEMPLATE] → 1.0.0 (initial ratification)
-Modified principles: n/a (first adoption)
-Added sections:
-  - Core Principles I–V (Mandatory Full Lifecycle, Behavior-Driven Requirements Translation,
-    Non-Negotiable Dual Test Coverage, TypeScript & React Only, Typed Persistence Boundary)
-  - Technology Stack Constraints
-  - Development Workflow & Quality Gates
-  - Governance
-Removed sections: none (template placeholders only)
-Deferred/TODO items: none — all placeholders resolved from user-supplied decisions
-Templates requiring follow-up:
-  - .specify/workflows/speckit/workflow.yml — currently only runs specify → plan → tasks →
-    implement. Principle I requires clarify/checklist/analyze/converge to also be mandatory
-    gated steps. This is a workflow-automation change, outside this command's scope — tracked
-    as a Next Action.
+Version change: 1.0.0 → 1.1.0
+Modified principles: none
+Added sections: none (Technology Stack Constraints section expanded, not restructured)
+Removed sections: none
+Deferred/TODO items: application scope (single-clinic vs. owner portal vs. multi-tenant SaaS)
+  intentionally left undecided — will be determined per-feature from the User Stories supplied
+  for /speckit-specify, not pinned in the constitution.
+Change: Technology Stack Constraints now pins styling (Tailwind CSS + shadcn/ui), package
+manager (pnpm), and deployment target (Docker, self-hosted) following project-scaffolding
+decisions. The app skeleton (Next.js + Prisma + Vitest + Playwright-bdd + Docker + CI) has been
+scaffolded into the repository accordingly.
 -->
 
 # Petclinic Spec Kit Constitution
@@ -78,6 +74,10 @@ stack; raw, unreviewed SQL is where type safety and migration discipline tend to
   `.feature` files against a running build of the app.
 - **Requirement intake**: User Stories with acceptance criteria, supplied by the product owner,
   captured verbatim in each feature's `spec.md` before translation into Gherkin scenarios.
+- **Styling**: Tailwind CSS + shadcn/ui component primitives.
+- **Package manager**: pnpm (pinned via `packageManager` in `package.json`).
+- **Deployment**: Docker, self-hosted (multi-stage build producing a Next.js `standalone`
+  output); `docker-compose.yml` provides the PostgreSQL service for local/self-hosted runs.
 
 ## Development Workflow & Quality Gates
 
@@ -105,4 +105,4 @@ Versioning policy (semantic versioning applied to this document):
 - **MINOR**: a new principle or materially expanded section is added.
 - **PATCH**: wording clarifications and non-semantic refinements.
 
-**Version**: 1.0.0 | **Ratified**: 2026-10-10 | **Last Amended**: 2026-10-10
+**Version**: 1.1.0 | **Ratified**: 2026-10-10 | **Last Amended**: 2026-10-10
