@@ -1,11 +1,14 @@
+import { PawPrint } from "lucide-react";
+
 export default function Home() {
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-col items-center gap-4 text-center">
-        <h1 className="text-3xl font-semibold tracking-tight text-black dark:text-zinc-50">
+    <div className="flex flex-1 flex-col items-center justify-center bg-muted px-4 py-16">
+      <main className="flex max-w-md flex-col items-center gap-4 rounded-lg border border-border bg-card p-10 text-center shadow-sm">
+        <PawPrint className="size-10 text-primary" aria-hidden />
+        <h1 className="text-3xl font-semibold tracking-tight text-foreground">
           Petclinic
         </h1>
-        <p className="max-w-md text-lg text-zinc-600 dark:text-zinc-400">
+        <p className="text-base text-muted-foreground">
           Spec-driven clinic management, scaffolded and awaiting its first feature spec.
         </p>
       </main>
