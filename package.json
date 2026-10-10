@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "cp -r public .next/standalone/public && cp -r .next/static .next/standalone/.next/static && node .next/standalone/server.js",
     "lint": "eslint",
-    "typecheck": "tsc --noEmit",
+    "typecheck": "next typegen && tsc --noEmit",
     "test:unit": "vitest run",
     "test:bdd": "bddgen && playwright test",
     "test": "pnpm test:unit && pnpm build && pnpm test:bdd",
