@@ -3,7 +3,7 @@ import { createBdd } from "playwright-bdd"
 
 const { Given, When, Then, Step } = createBdd()
 
-const VALID_OWNER = {
+export const VALID_OWNER = {
   firstName: "Jean",
   lastName: "Dupont",
   address: "1 Rue de la Paix",
@@ -11,7 +11,7 @@ const VALID_OWNER = {
   telephone: "0123456789",
 }
 
-async function fillOwnerForm(page: Page, overrides: Partial<typeof VALID_OWNER>) {
+export async function fillOwnerForm(page: Page, overrides: Partial<typeof VALID_OWNER>) {
   const owner = { ...VALID_OWNER, ...overrides }
   await page.getByLabel("First name").fill(owner.firstName)
   await page.getByLabel("Last name").fill(owner.lastName)
